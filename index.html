@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SYSTEM ALERT</title>
 
 <style>
@@ -15,45 +16,49 @@ body {
 }
 
 .container {
-    margin-top: 12%;
+    margin-top: 10vh;
+    padding: 0 5vw;
 }
 
 h1 {
-    font-size: 38px;
+    font-size: 6vw; /* адаптивно для телефона */
     animation: blink 0.8s infinite;
 }
 
 #timer {
-    font-size: 70px;
-    margin: 20px;
+    font-size: 12vw;
+    margin: 3vh 0;
 }
 
 #progressBox {
-    width: 80%;
-    height: 25px;
-    border: 2px solid red;
-    margin: 20px auto;
+    width: 90%;
+    height: 6vw;
+    border: 3px solid red;
+    margin: 3vh auto;
+    border-radius: 5px;
 }
 
 #progressBar {
     height: 100%;
     width: 0%;
     background: red;
+    border-radius: 5px;
 }
 
 .warning {
     color: orange;
-    font-size: 18px;
-    margin-top: 15px;
+    font-size: 4vw;
+    margin-top: 3vh;
 }
 
 button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 18px;
+    margin-top: 4vh;
+    padding: 3vw 5vw;
+    font-size: 5vw;
     background: black;
     color: red;
-    border: 2px solid red;
+    border: 3px solid red;
+    border-radius: 5px;
 }
 
 @keyframes blink {
@@ -69,11 +74,11 @@ button {
 <div class="container">
 <h1>⚠ ВАШЕ УСТРОЙСТВО ВЗЛОМАНО ⚠</h1>
 
-<p>Удаление данных через:</p>
+<p style="font-size: 4vw;">Удаление данных через:</p>
 
 <div id="timer">10</div>
 
-<p>Удаление файлов:</p>
+<p style="font-size:4vw;">Удаление файлов:</p>
 
 <div id="progressBox">
     <div id="progressBar"></div>
@@ -105,7 +110,7 @@ document.documentElement.requestFullscreen().catch(()=>{});
 alarm.volume = 1.0;
 alarm.play().catch(()=>{});
 
-// Vibration
+// Vibration (mobile)
 if (navigator.vibrate) {
     navigator.vibrate([500,300,500,300,500]);
 }
@@ -133,7 +138,7 @@ const interval = setInterval(() => {
     }
 }, 1000);
 
-// Fake stop
+// Fake stop button
 function fakeStop() {
     alert("❌ ОШИБКА: ДОСТУП ЗАПРЕЩЁН!");
 }
@@ -145,9 +150,9 @@ function endPrank() {
 
     document.body.innerHTML = `
         <div style="margin-top:20%; text-align:center;">
-        <h1 style="color:lime;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
-        <p style="color:white;">Ничего не удалено.</p>
-        <p style="color:gray;">Устройство полностью в порядке ✔</p>
+        <h1 style="color:lime; font-size:8vw;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
+        <p style="color:white; font-size:5vw;">Ничего не удалено.</p>
+        <p style="color:gray; font-size:4vw;">Устройство полностью в порядке ✔</p>
         </div>
     `;
 }
