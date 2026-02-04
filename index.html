@@ -4,75 +4,68 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SECURITY BREACH</title>
+<title>Android System Alert</title>
 
 <style>
 body {
     margin: 0;
-    background: black;
+    background: #000;
     color: #00ff00;
     font-family: monospace;
-    text-align: center;
     overflow: hidden;
 }
 
-.container {
-    margin-top: 6vh;
-    padding: 0 4vw;
+.screen {
+    padding: 5vw;
 }
 
-h1 {
+.title {
+    color: red;
     font-size: 7vw;
-    animation: blink 0.3s infinite;
+    text-align: center;
+    animation: blink 0.4s infinite;
 }
 
-#timer {
+.timer {
     font-size: 16vw;
     color: red;
+    text-align: center;
+    margin: 2vh 0;
 }
 
-.barBox {
+.progressBox {
     width: 95%;
     height: 6vw;
-    border: 2px solid #00ff00;
-    margin: 3vh auto;
+    border: 2px solid red;
+    margin: 2vh auto;
 }
 
-.bar {
+.progress {
     height: 100%;
     width: 0%;
-    background: #00ff00;
+    background: red;
 }
 
-.fakeCam {
-    width: 90%;
-    height: 40vw;
+.popup {
+    background: #111;
     border: 2px solid red;
-    margin: 3vh auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: red;
-    font-size: 4vw;
-    animation: camFlash 0.4s infinite;
-}
-
-@keyframes camFlash {
-    0% {opacity:1;}
-    50% {opacity:0.3;}
-    100% {opacity:1;}
-}
-
-.terminal {
-    margin-top: 2vh;
-    font-size: 3.8vw;
-    color: #00ff00;
-    min-height: 10vw;
-}
-
-button {
+    padding: 4vw;
     margin-top: 3vh;
-    padding: 3vw 5vw;
+    color: white;
+    font-size: 4vw;
+}
+
+.logs {
+    margin-top: 3vh;
+    color: #00ff00;
+    font-size: 3.8vw;
+    min-height: 12vw;
+}
+
+.btn {
+    margin-top: 4vh;
+    width: 100%;
+    padding: 4vw;
     font-size: 5vw;
     background: black;
     color: red;
@@ -85,63 +78,66 @@ button {
     100% {opacity:1;}
 }
 
-.shake {
-    animation: shake 0.12s infinite;
-}
-
-@keyframes shake {
-    0% {transform: translateX(0);}
-    25% {transform: translateX(-6px);}
-    50% {transform: translateX(6px);}
-    75% {transform: translateX(-6px);}
-    100% {transform: translateX(0);}
-}
-
 .flash {
     animation: flashBg 0.15s infinite;
 }
 
 @keyframes flashBg {
     0% {background:black;}
-    50% {background:#220000;}
+    50% {background:#300000;}
     100% {background:black;}
+}
+
+.shake {
+    animation: shake 0.12s infinite;
+}
+
+@keyframes shake {
+    0% {transform: translateX(0);}
+    25% {transform: translateX(-7px);}
+    50% {transform: translateX(7px);}
+    75% {transform: translateX(-7px);}
+    100% {transform: translateX(0);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="screen">
+<div class="screen" id="screen">
 
-<h1>⚠ SYSTEM BREACH DETECTED ⚠</h1>
+<div class="title">⚠ ANDROID SYSTEM FAILURE ⚠</div>
 
-<p style="font-size:4vw;color:red;">Самоуничтожение данных через:</p>
-
-<div id="timer">10</div>
-
-<div class="barBox">
-<div class="bar" id="bar"></div>
+<div class="popup">
+System UI не отвечает.<br>
+Обнаружена критическая ошибка безопасности.
 </div>
 
-<div class="fakeCam">
-📷 FRONT CAMERA — ACTIVE
+<div style="color:white;font-size:4vw;margin-top:2vh;">
+Удаление данных через:
 </div>
 
-<div class="terminal" id="terminal">
-Подключение к серверу...
+<div class="timer" id="timer">10</div>
+
+<div class="progressBox">
+<div class="progress" id="progress"></div>
 </div>
 
-<button onclick="fakeStop()">ABORT</button>
+<div class="logs" id="logs">
+Подключение к ядру системы...
+</div>
+
+<button class="btn" onclick="fakeFix()">ИСПРАВИТЬ</button>
 
 </div>
 
 <script>
 let time = 10;
-let progress = 0;
+let percent = 0;
 
 const timer = document.getElementById("timer");
-const bar = document.getElementById("bar");
-const terminal = document.getElementById("terminal");
+const progress = document.getElementById("progress");
+const logs = document.getElementById("logs");
 
 // fullscreen
 document.documentElement.requestFullscreen().catch(()=>{});
@@ -149,42 +145,42 @@ document.documentElement.requestFullscreen().catch(()=>{});
 // vibration
 if (navigator.vibrate) {
     setInterval(()=>{
-        navigator.vibrate([200,100,200]);
-    }, 700);
+        navigator.vibrate([300,150,300]);
+    }, 800);
 }
 
-// exit warning
-window.onbeforeunload = function () {
-    return "CRITICAL SYSTEM FAILURE";
+// exit block
+window.onbeforeunload = function(){
+    return "ANDROID SYSTEM ERROR";
 };
 
-// fake hacker logs
-const lines = [
-"ACCESS GRANTED",
-"UPLOADING FILES...",
-"CAMERA STREAM CONNECTED",
-"GEOLOCATION FOUND",
-"SENDING DATA...",
-"CONTACTS DUMPED",
-"PHOTO BACKUP EXPORTED",
-"MIC RECORDING STARTED"
+// fake android logs
+const messages = [
+"SystemUI crash detected",
+"Root access simulated",
+"Encrypting storage...",
+"Deleting media...",
+"Clearing cache...",
+"Sending backup...",
+"Disabling recovery...",
+"Kernel panic triggered"
 ];
 
-let lineIndex = 0;
+let i = 0;
 
-const terminalLoop = setInterval(()=>{
-    terminal.textContent = lines[lineIndex % lines.length];
-    lineIndex++;
+const logLoop = setInterval(()=>{
+    logs.textContent = messages[i % messages.length];
+    i++;
 }, 600);
 
-// timer chaos
+// main timer
 const mainLoop = setInterval(()=>{
 
     time--;
-    progress += 10;
+    percent += 10;
 
     timer.textContent = time;
-    bar.style.width = progress + "%";
+    progress.style.width = percent + "%";
 
     document.body.classList.add("shake");
 
@@ -194,18 +190,18 @@ const mainLoop = setInterval(()=>{
 
     if(time <= 0){
         clearInterval(mainLoop);
-        clearInterval(terminalLoop);
+        clearInterval(logLoop);
         endPrank();
     }
 
 },1000);
 
-// fake stop
-function fakeStop(){
-    alert("❌ ACCESS DENIED");
+// fake fix button
+function fakeFix(){
+    alert("❌ SYSTEM PERMISSION DENIED");
 }
 
-// END
+// end prank
 function endPrank(){
 
     window.onbeforeunload = null;
@@ -215,9 +211,9 @@ function endPrank(){
     document.body.innerHTML = `
     <div style="margin-top:25%;text-align:center;">
         <h1 style="color:lime;font-size:10vw;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
-        <p style="color:white;font-size:5vw;">Никакая камера не включалась</p>
-        <p style="color:white;font-size:5vw;">Никакие данные не трогались</p>
-        <p style="color:gray;font-size:4vw;">Ты полностью в безопасности ✔</p>
+        <p style="color:white;font-size:5vw;">Android не повреждён</p>
+        <p style="color:white;font-size:5vw;">Ничего не удалено</p>
+        <p style="color:gray;font-size:4vw;">Система в порядке ✔</p>
     </div>
     `;
 }
