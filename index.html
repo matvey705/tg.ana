@@ -4,93 +4,107 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SYSTEM FAILURE</title>
+<title>SECURITY BREACH</title>
 
 <style>
 body {
     margin: 0;
     background: black;
-    color: red;
-    font-family: Arial, sans-serif;
+    color: #00ff00;
+    font-family: monospace;
     text-align: center;
     overflow: hidden;
 }
 
 .container {
-    margin-top: 8vh;
-    padding: 0 5vw;
+    margin-top: 6vh;
+    padding: 0 4vw;
 }
 
 h1 {
     font-size: 7vw;
-    animation: blink 0.4s infinite;
+    animation: blink 0.3s infinite;
 }
 
 #timer {
     font-size: 16vw;
-    font-weight: bold;
+    color: red;
 }
 
-#progressBox {
+.barBox {
     width: 95%;
-    height: 7vw;
-    border: 3px solid red;
+    height: 6vw;
+    border: 2px solid #00ff00;
     margin: 3vh auto;
 }
 
-#progressBar {
+.bar {
     height: 100%;
     width: 0%;
-    background: red;
+    background: #00ff00;
 }
 
-.warning {
-    font-size: 4.5vw;
-    color: orange;
-    margin-top: 2vh;
-}
-
-.log {
-    margin-top: 3vh;
+.fakeCam {
+    width: 90%;
+    height: 40vw;
+    border: 2px solid red;
+    margin: 3vh auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
     font-size: 4vw;
-    color: #ff4444;
+    animation: camFlash 0.4s infinite;
+}
+
+@keyframes camFlash {
+    0% {opacity:1;}
+    50% {opacity:0.3;}
+    100% {opacity:1;}
+}
+
+.terminal {
+    margin-top: 2vh;
+    font-size: 3.8vw;
+    color: #00ff00;
+    min-height: 10vw;
 }
 
 button {
-    margin-top: 4vh;
-    padding: 4vw 6vw;
+    margin-top: 3vh;
+    padding: 3vw 5vw;
     font-size: 5vw;
     background: black;
     color: red;
-    border: 3px solid red;
+    border: 2px solid red;
 }
 
 @keyframes blink {
-    0% {opacity: 1;}
-    50% {opacity: 0.1;}
-    100% {opacity: 1;}
-}
-
-.flash {
-    animation: flashBg 0.2s infinite;
-}
-
-@keyframes flashBg {
-    0% {background:black;}
-    50% {background:darkred;}
-    100% {background:black;}
+    0% {opacity:1;}
+    50% {opacity:0.2;}
+    100% {opacity:1;}
 }
 
 .shake {
-    animation: shake 0.15s infinite;
+    animation: shake 0.12s infinite;
 }
 
 @keyframes shake {
     0% {transform: translateX(0);}
-    25% {transform: translateX(-5px);}
-    50% {transform: translateX(5px);}
-    75% {transform: translateX(-5px);}
+    25% {transform: translateX(-6px);}
+    50% {transform: translateX(6px);}
+    75% {transform: translateX(-6px);}
     100% {transform: translateX(0);}
+}
+
+.flash {
+    animation: flashBg 0.15s infinite;
+}
+
+@keyframes flashBg {
+    0% {background:black;}
+    50% {background:#220000;}
+    100% {background:black;}
 }
 </style>
 </head>
@@ -99,25 +113,25 @@ button {
 
 <div class="container" id="screen">
 
-<h1>⚠ CRITICAL SYSTEM ERROR ⚠</h1>
+<h1>⚠ SYSTEM BREACH DETECTED ⚠</h1>
 
-<p style="font-size:4.5vw;">Полное удаление данных через:</p>
+<p style="font-size:4vw;color:red;">Самоуничтожение данных через:</p>
 
 <div id="timer">10</div>
 
-<div id="progressBox">
-    <div id="progressBar"></div>
+<div class="barBox">
+<div class="bar" id="bar"></div>
 </div>
 
-<div class="warning">
-❗ ЗАКРЫТИЕ СТРАНИЦЫ = БЛОКИРОВКА УСТРОЙСТВА
+<div class="fakeCam">
+📷 FRONT CAMERA — ACTIVE
 </div>
 
-<div class="log" id="log">
-Инициализация вируса...
+<div class="terminal" id="terminal">
+Подключение к серверу...
 </div>
 
-<button onclick="fakeStop()">ОСТАНОВИТЬ</button>
+<button onclick="fakeStop()">ABORT</button>
 
 </div>
 
@@ -125,85 +139,85 @@ button {
 let time = 10;
 let progress = 0;
 
-const timerEl = document.getElementById("timer");
-const bar = document.getElementById("progressBar");
-const log = document.getElementById("log");
-const screen = document.getElementById("screen");
+const timer = document.getElementById("timer");
+const bar = document.getElementById("bar");
+const terminal = document.getElementById("terminal");
 
-// FULLSCREEN
+// fullscreen
 document.documentElement.requestFullscreen().catch(()=>{});
 
-// VIBRATION LOOP
+// vibration
 if (navigator.vibrate) {
     setInterval(()=>{
         navigator.vibrate([200,100,200]);
-    }, 800);
+    }, 700);
 }
 
-// EXIT BLOCK WARNING
+// exit warning
 window.onbeforeunload = function () {
-    return "CRITICAL ERROR: SYSTEM DAMAGE";
+    return "CRITICAL SYSTEM FAILURE";
 };
 
-// FAKE LOGS
-const logs = [
-"Подключение к серверу...",
-"Доступ к памяти получен",
-"Удаление фото...",
-"Удаление контактов...",
-"Перехват аккаунтов...",
-"Камера активирована...",
-"Микрофон активирован...",
-"Передача данных..."
+// fake hacker logs
+const lines = [
+"ACCESS GRANTED",
+"UPLOADING FILES...",
+"CAMERA STREAM CONNECTED",
+"GEOLOCATION FOUND",
+"SENDING DATA...",
+"CONTACTS DUMPED",
+"PHOTO BACKUP EXPORTED",
+"MIC RECORDING STARTED"
 ];
 
-let logIndex = 0;
+let lineIndex = 0;
 
-const logInterval = setInterval(()=>{
-    log.textContent = logs[logIndex % logs.length];
-    logIndex++;
-}, 700);
+const terminalLoop = setInterval(()=>{
+    terminal.textContent = lines[lineIndex % lines.length];
+    lineIndex++;
+}, 600);
 
-// TIMER + CHAOS
-const interval = setInterval(() => {
+// timer chaos
+const mainLoop = setInterval(()=>{
+
     time--;
     progress += 10;
 
-    timerEl.textContent = time;
+    timer.textContent = time;
     bar.style.width = progress + "%";
 
     document.body.classList.add("shake");
 
-    if (time <= 5) {
+    if(time <= 5){
         document.body.classList.add("flash");
     }
 
-    if (time <= 0) {
-        clearInterval(interval);
-        clearInterval(logInterval);
+    if(time <= 0){
+        clearInterval(mainLoop);
+        clearInterval(terminalLoop);
         endPrank();
     }
 
-}, 1000);
+},1000);
 
-// Fake stop
-function fakeStop() {
-    alert("❌ ОШИБКА: ДОСТУП ЗАБЛОКИРОВАН");
+// fake stop
+function fakeStop(){
+    alert("❌ ACCESS DENIED");
 }
 
 // END
-function endPrank() {
+function endPrank(){
 
     window.onbeforeunload = null;
-
     document.body.classList.remove("flash");
     document.body.classList.remove("shake");
 
     document.body.innerHTML = `
-    <div style="margin-top:25%; text-align:center;">
-        <h1 style="color:lime; font-size:10vw;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
-        <p style="color:white; font-size:5vw;">Ты в безопасности.</p>
-        <p style="color:gray; font-size:4vw;">Ничего не удалено ✔</p>
+    <div style="margin-top:25%;text-align:center;">
+        <h1 style="color:lime;font-size:10vw;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
+        <p style="color:white;font-size:5vw;">Никакая камера не включалась</p>
+        <p style="color:white;font-size:5vw;">Никакие данные не трогались</p>
+        <p style="color:gray;font-size:4vw;">Ты полностью в безопасности ✔</p>
     </div>
     `;
 }
