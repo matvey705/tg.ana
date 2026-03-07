@@ -2,221 +2,101 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Android System Alert</title>
+<title>С 8 Марта, мама!</title>
 
 <style>
-body {
-    margin: 0;
-    background: #000;
-    color: #00ff00;
-    font-family: monospace;
-    overflow: hidden;
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    font-family:Arial;
+    overflow:hidden;
 }
 
-.screen {
-    padding: 5vw;
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    animation:appear 2s ease;
 }
 
-.title {
-    color: red;
-    font-size: 7vw;
-    text-align: center;
-    animation: blink 0.4s infinite;
+h1{
+    color:#ff4d6d;
+    font-size:40px;
 }
 
-.timer {
-    font-size: 16vw;
-    color: red;
-    text-align: center;
-    margin: 2vh 0;
+p{
+    font-size:20px;
 }
 
-.progressBox {
-    width: 95%;
-    height: 6vw;
-    border: 2px solid red;
-    margin: 2vh auto;
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#ff4d6d;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
 }
 
-.progress {
-    height: 100%;
-    width: 0%;
-    background: red;
+@keyframes appear{
+    from{transform:scale(0);opacity:0;}
+    to{transform:scale(1);opacity:1;}
 }
 
-.popup {
-    background: #111;
-    border: 2px solid red;
-    padding: 4vw;
-    margin-top: 3vh;
-    color: white;
-    font-size: 4vw;
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:20px;
+    animation:fall 5s linear infinite;
 }
 
-.logs {
-    margin-top: 3vh;
-    color: #00ff00;
-    font-size: 3.8vw;
-    min-height: 12vw;
-}
-
-.btn {
-    margin-top: 4vh;
-    width: 100%;
-    padding: 4vw;
-    font-size: 5vw;
-    background: black;
-    color: red;
-    border: 2px solid red;
-}
-
-@keyframes blink {
-    0% {opacity:1;}
-    50% {opacity:0.2;}
-    100% {opacity:1;}
-}
-
-.flash {
-    animation: flashBg 0.15s infinite;
-}
-
-@keyframes flashBg {
-    0% {background:black;}
-    50% {background:#300000;}
-    100% {background:black;}
-}
-
-.shake {
-    animation: shake 0.12s infinite;
-}
-
-@keyframes shake {
-    0% {transform: translateX(0);}
-    25% {transform: translateX(-7px);}
-    50% {transform: translateX(7px);}
-    75% {transform: translateX(-7px);}
-    100% {transform: translateX(0);}
+@keyframes fall{
+    0%{transform:translateY(-10vh);}
+    100%{transform:translateY(110vh);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="screen" id="screen">
+<div class="card">
+    <h1>🌷 С 8 Марта, мама! 🌷</h1>
+    <p>
+    Спасибо тебе за заботу, любовь и поддержку.  
+    Ты самый важный человек в моей жизни ❤️
+    </p>
 
-<div class="title">⚠ ANDROID SYSTEM FAILURE ⚠</div>
-
-<div class="popup">
-System UI не отвечает.<br>
-Обнаружена критическая ошибка безопасности.
-</div>
-
-<div style="color:white;font-size:4vw;margin-top:2vh;">
-Удаление данных через:
-</div>
-
-<div class="timer" id="timer">10</div>
-
-<div class="progressBox">
-<div class="progress" id="progress"></div>
-</div>
-
-<div class="logs" id="logs">
-Подключение к ядру системы...
-</div>
-
-<button class="btn" onclick="fakeFix()">ИСПРАВИТЬ</button>
-
+    <button onclick="showMessage()">Нажми сюда</button>
+    <p id="msg"></p>
 </div>
 
 <script>
-let time = 10;
-let percent = 0;
-
-const timer = document.getElementById("timer");
-const progress = document.getElementById("progress");
-const logs = document.getElementById("logs");
-
-// fullscreen
-document.documentElement.requestFullscreen().catch(()=>{});
-
-// vibration
-if (navigator.vibrate) {
-    setInterval(()=>{
-        navigator.vibrate([300,150,300]);
-    }, 800);
+function showMessage(){
+    document.getElementById("msg").innerText =
+    "Я тебя очень люблю! Пусть каждый день приносит тебе радость 🌸";
 }
 
-// exit block
-window.onbeforeunload = function(){
-    return "ANDROID SYSTEM ERROR";
-};
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤";
 
-// fake android logs
-const messages = [
-"SystemUI crash detected",
-"Root access simulated",
-"Encrypting storage...",
-"Deleting media...",
-"Clearing cache...",
-"Sending backup...",
-"Disabling recovery...",
-"Kernel panic triggered"
-];
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration = 3 + Math.random()*5 + "s";
 
-let i = 0;
+    document.body.appendChild(heart);
 
-const logLoop = setInterval(()=>{
-    logs.textContent = messages[i % messages.length];
-    i++;
-}, 600);
-
-// main timer
-const mainLoop = setInterval(()=>{
-
-    time--;
-    percent += 10;
-
-    timer.textContent = time;
-    progress.style.width = percent + "%";
-
-    document.body.classList.add("shake");
-
-    if(time <= 5){
-        document.body.classList.add("flash");
-    }
-
-    if(time <= 0){
-        clearInterval(mainLoop);
-        clearInterval(logLoop);
-        endPrank();
-    }
-
-},1000);
-
-// fake fix button
-function fakeFix(){
-    alert("❌ SYSTEM PERMISSION DENIED");
+    setTimeout(()=>heart.remove(),7000);
 }
 
-// end prank
-function endPrank(){
-
-    window.onbeforeunload = null;
-    document.body.classList.remove("flash");
-    document.body.classList.remove("shake");
-
-    document.body.innerHTML = `
-    <div style="margin-top:25%;text-align:center;">
-        <h1 style="color:lime;font-size:10vw;">😂 ЭТО БЫЛ ПРАНК 😂</h1>
-        <p style="color:white;font-size:5vw;">Android не повреждён</p>
-        <p style="color:white;font-size:5vw;">Ничего не удалено</p>
-        <p style="color:gray;font-size:4vw;">Система в порядке ✔</p>
-    </div>
-    `;
-}
+setInterval(createHeart,300);
 </script>
 
 </body>
